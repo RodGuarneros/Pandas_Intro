@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clases de Ciencia de Datos</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 920px;
+      margin: 2em auto;
+      padding: 1em;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      border-bottom: 1px solid #333;
+      padding-bottom: 1em;
+      margin-bottom: 2em;
+    }
+    img {
+      height: 70px;
+    }
+    h1 {
+      color: #00e5ff;
+      font-size: 1.6em;
+      margin: 0;
+    }
+    h2 {
+      color: #4dd0e1;
+      font-size: 1.3em;
+      margin-top: 1.8em;
+    }
+    h3 {
+      color: #b2ebf2;
+      font-size: 1.1em;
+      margin: 1.2em 0 0.4em;
+    }
+    p {
+      font-size: 1.05em;
+      line-height: 1.6;
+    }
+    ul {
+      margin-left: 1.2em;
+    }
+    .button {
+      display: inline-block;
+      background-color: #00acc1;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px 0;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #00838f;
+    }
+    .email {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      margin-top: 3em;
+      color: #ccc;
+      font-size: 1em;
+    }
+    .email:hover {
+      color: #ffffff;
+    }
+    .icon {
+      width: 22px;
+      height: 22px;
+      filter: brightness(1.2);
+    }
+    .instruction {
+      font-size: 0.95em;
+      color: #ccc;
+      margin-top: 0.3em;
+    }
+    .tabla-pandas {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1em;
+      background-color: #1e1e1e;
+      color: #eee;
+      font-size: 0.95em;
+    }
+    .tabla-pandas th, .tabla-pandas td {
+      border: 1px solid #444;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .tabla-pandas th {
+      background-color: #2e2e2e;
+      color: #00e5ff;
+    }
+    pre {
+      background-color: #2a2a2a;
+      color: #e0f7fa;
+      padding: 0.7em;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-top: 0.5em;
+    }
+    #esquema-container {
+      display: none;
+      margin-top: 2em;
+    }
+  </style>
+  <script>
+    function toggleEsquema() {
+      const cont = document.getElementById('esquema-container');
+      cont.style.display = cont.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</head>
+<body>
+<header style="text-align: center; padding-bottom: 1.2em;">
+  <img src="../sources/tecnologico-de-monterrey-blue.png" alt="Tec de Monterrey" style="height: 70px; margin-bottom: 0.6em;">
+  <div style="display: inline-block; line-height: 1.4;">
+    <div style="font-size: 1.6em; font-weight: 600; color: #ffffff;">
+      Introducción a Pandas, selección, indexación y filtrado
+    </div>
+    <div style="font-size: 1.15em; font-weight: 400; color: #b2ebf2;">
+      Escuela de Ingeniería y Ciencias - Departamento Regional de Computación
+    </div>
+    <div style="font-size: 1em; font-weight: 300; color: #90caf9;">
+      Profesor: Rodrigo Guarneros
+    </div>
+  </div>
+</header>
+
+
+  <p>Bienvenido a esta clase modelo. Aquí puedes descargar o explorar el material que usaremos hoy:</p>
+
+  <a class="button" href="../main/netflix_pandas_class.ipynb" download>📥 Descargar Notebook (.ipynb)</a>
+  <p class="instruction">
+    Luego, entra a <a href="https://jupyterlite.github.io/demo" target="_blank" style="color:#4dd0e1;">jupyterlite.github.io/demo</a>, haz clic en el ícono de carpeta 📁 y sube el archivo para comenzar a trabajar.
+  </p>
+
+  <a class="button" href="../main/netflix.csv" download>📊 Descargar Dataset Netflix (.csv)</a>
+
+  <div class="email">
+    <a href="mailto:rodrigo.guarneros@gmail.com" style="display: flex; align-items: center; gap: 0.6em; color: inherit; text-decoration: none;">
+      <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Circle-icons-mail.svg" alt="email icon">
+      <span>Siempre hay más que aprender, escríbeme.</span>
+    </a>
+  </div>
+
+  <a class="button" onclick="toggleEsquema()">📘 Mostrar/Ocultar Esquema + Ejemplo</a>
+
+  <div id="esquema-container">
+    <h2>📘 Esquema visual de Pandas</h2>
+    <p>Este ejemplo usa una tabla ficticia para explicar selección, indexación y filtrado en Pandas:</p>
+
+    <table class="tabla-pandas">
+      <thead><tr><th>id</th><th>nombre</th><th>edad</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Ana</td><td>24</td></tr>
+        <tr><td>1</td><td>Luis</td><td>30</td></tr>
+        <tr><td>2</td><td>María</td><td>22</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔹 Selección</h3>
+    <p><strong>¿Qué es?</strong> Extraer columnas específicas del DataFrame.</p>
+    <ul>
+      <li><strong>Ventaja:</strong> Fácil y legible. Útil para reducir dimensionalidad.</li>
+      <li><strong>Desventaja:</strong> No permite lógica condicional directamente.</li>
+      <li><strong>¿Cómo resolverlo?</strong> Combinando con filtrado u otras funciones de transformación.</li>
+      <li><strong>¿Por qué es difícil?</strong> Porque la selección pura no está pensada para operaciones lógicas, sino estructurales.</li>
+    </ul>
+    <pre><code>df['nombre']</code></pre>
+    <pre>
+0      Ana
+1     Luis
+2    María
+Name: nombre, dtype: object
+    </pre>
+
+    <pre><code>df[['nombre', 'edad']]</code></pre>
+    <pre>
+  nombre  edad
+0    Ana    24
+1   Luis    30
+2  María    22
+    </pre>
+
+    <h3>🔹 Indexación</h3>
+    <p><strong>¿Qué es?</strong> Acceso a valores específicos por etiquetas o posiciones.</p>
+    <ul>
+      <li><strong>Ventaja:</strong> Precisión absoluta. Ideal para actualizar celdas.</li>
+      <li><strong>Desventaja:</strong> Poco escalable sin conocer índices exactos.</li>
+      <li><strong>¿Cómo resolverlo?</strong> Usando búsqueda previa o condiciones dinámicas.</li>
+      <li><strong>¿Por qué es difícil?</strong> Porque Big Data raramente permite exploración manual fila por fila.</li>
+    </ul>
+    <pre><code>df.loc[1, 'nombre']</code></pre>
+    <pre>'Luis'</pre>
+    <pre><code>df.iloc[2, 1]</code></pre>
+    <pre>'María'</pre>
+
+    <h3>🔹 Filtrado</h3>
+    <p><strong>¿Qué es?</strong> Seleccionar filas según condiciones lógicas.</p>
+    <ul>
+      <li><strong>Ventaja:</strong> Detectar patrones o valores relevantes.</li>
+      <li><strong>Desventaja:</strong> Costoso en tiempo si no se vectoriza.</li>
+      <li><strong>¿Cómo resolverlo?</strong> Asegurando condiciones vectorizadas y uso eficiente de memoria.</li>
+      <li><strong>¿Por qué es difícil?</strong> Porque filtrar mal puede duplicar tiempos o cargar en exceso RAM.</li>
+    </ul>
+    <pre><code>df[df['edad'] > 23]</code></pre>
+    <pre>
+  nombre  edad
+0    Ana    24
+1   Luis    30
+    </pre>
+
+    <pre><code>df[df['nombre'].str.contains('a')]</code></pre>
+    <pre>
+  nombre  edad
+0    Ana    24
+2  María    22
+    </pre>
+
+    <p style="color: #bbb;"><strong>🎯 En Big Data:</strong> Estas técnicas permiten reducir el volumen de datos procesado, ahorrando recursos computacionales valiosos.</p>
+<h3 style="margin-top: 2em;">¿Qué significa vectorizar en este contexto?</h3>
+<p>Vectorizar significa aplicar operaciones directamente sobre columnas enteras de un DataFrame en lugar de usar bucles para procesar fila por fila. Esto es esencial en Big Data, ya que:</p>
+<ul>
+  <li><strong>Rinde mejor:</strong> Las operaciones son ejecutadas en C a través de NumPy, mucho más rápido que Python puro.</li>
+  <li><strong>Menor uso de memoria:</strong> Al evitar estructuras temporales costosas.</li>
+  <li><strong>Evita:</strong> usar <code>.iterrows()</code>, bucles <code>for</code> o <code>.apply()</code> innecesarios.</li>
+</ul>
+
+<h4>Ejemplo vectorizado:</h4>
+<pre><code>df[df['edad'] > 23]</code></pre>
+<p>Esto genera internamente una máscara booleana optimizada:</p>
+<pre>
+0     True
+1     True
+2    False
+Name: edad, dtype: bool
+</pre>
+
+<h4>Otro ejemplo:</h4>
+<pre><code>df[df['nombre'].str.contains('a')]</code></pre>
+<p>Aunque internamente usa cadenas, sigue siendo vectorizado porque <code>.str</code> actúa sobre toda la Serie.</p>
+
+<h4>No vectorizado (evitar):</h4>
+<pre><code>
+df[[condicion_fila(row) for _, row in df.iterrows()]]
+</code></pre>
+<p>Esto es extremadamente lento en grandes datasets porque ejecuta Python fila por fila.</p>
+
+<p style="color: #b0bec5;"><strong>En resumen:</strong> La vectorización permite analizar millones de filas en segundos. ¡Evita los bucles cuando trabajes con Pandas!</p>  
+
+</div>
+
+  <footer>
+    <p><small>Creado para clase demostrativa • Junio 11 de 2025</small></p>
+  </footer>
+</body>
+</html>
+
+
+
